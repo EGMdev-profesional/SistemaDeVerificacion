@@ -1,0 +1,53 @@
+services:
+  - type: web
+    name: asistencia-qr-backend
+    env: node
+    plan: free
+    buildCommand: cd backend && npm install
+    startCommand: cd backend && npm start
+    envVars:
+      - key: PORT
+        value: 3000
+      - key: NODE_ENV
+        value: production
+      - key: DB_HOST
+        fromDatabase:
+          name: asistencia-qr-db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: asistencia-qr-db
+          property: port
+      - key: DB_USER
+        fromDatabase:
+          name: asistencia-qr-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: asistencia-qr-db
+          property: password
+      - key: DB_NAME
+        fromDatabase:
+          name: asistencia-qr-db
+          property: database
+      - key: JWT_SECRET
+        sync: false
+      - key: HORA_ENTRADA
+        value: "08:00:00"
+      - key: HORA_SALIDA
+        value: "13:00:00"
+
+  - type: web
+    name: asistencia-qr-frontend
+    env: node
+    plan: free
+    buildCommand: cd frontend && npm install && npm run build
+    startCommand: cd frontend && npm run preview
+    envVars:
+      - key: VITE_API_URL
+        value: https://asistencia-qr-backend.onrender.com/api
+
+  - type: pserv
+    name: asistencia-qr-db
+    ipAllowList: []
+    plan: free
