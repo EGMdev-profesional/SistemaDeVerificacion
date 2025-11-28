@@ -67,7 +67,7 @@ VALUES (
     'Administrador', 
     'Sistema', 
     'admin', 
-    '$2b$10$rZ5YhkqGvJKqVZ5YhkqGvOXKJ5YhkqGvJKqVZ5YhkqGvJKqVZ5Yhk',
+    '$2b$10$HaOe22txRSSz54.9UcaygexG6HBIc/ddiKCY0BlZz5HLQ/euGSRR.',
     'admin@municipalidad-piura.gob.pe',
     '073-123456'
 ) ON CONFLICT (usuario) DO NOTHING;
@@ -83,7 +83,7 @@ VALUES
     '987654321', 
     'PRACT-001', 
     'PRACT-001', 
-    '$2b$10$rZ5YhkqGvJKqVZ5YhkqGvOXKJ5YhkqGvJKqVZ5YhkqGvJKqVZ5Yhk',
+    '$2b$10$76GcLk/7xA4iIN1.CyfsN.yLIgq2fFz141RzQ6xxTk2/e4Y3TrsYy',
     'juan.perez@ucv.edu.pe'
 ),
 (
@@ -93,7 +93,7 @@ VALUES
     '987654322', 
     'PRACT-002', 
     'PRACT-002', 
-    '$2b$10$rZ5YhkqGvJKqVZ5YhkqGvOXKJ5YhkqGvJKqVZ5YhkqGvJKqVZ5Yhk',
+    '$2b$10$76GcLk/7xA4iIN1.CyfsN.yLIgq2fFz141RzQ6xxTk2/e4Y3TrsYy',
     'maria.rodriguez@ucv.edu.pe'
 ),
 (
@@ -101,9 +101,10 @@ VALUES
     'Sánchez Díaz', 
     '70123456', 
     '987654323', 
+    '987654323', 
     'PRACT-003', 
     'PRACT-003', 
-    '$2b$10$rZ5YhkqGvJKqVZ5YhkqGvOXKJ5YhkqGvJKqVZ5YhkqGvJKqVZ5Yhk',
+    '$2b$10$76GcLk/7xA4iIN1.CyfsN.yLIgq2fFz141RzQ6xxTk2/e4Y3TrsYy',
     'carlos.sanchez@ucv.edu.pe'
 )
 ON CONFLICT (usuario) DO NOTHING;
@@ -167,3 +168,12 @@ FROM practicantes p
 LEFT JOIN asistencias a ON p.id = a.practicante_id
 WHERE p.activo = TRUE
 GROUP BY p.id, p.codigo, p.nombre, p.apellidos, p.documento, p.foto;
+
+-- Migración: Agregar campos adicionales a practicantes
+ALTER TABLE practicantes
+  ADD COLUMN IF NOT EXISTS horario JSONB NULL,
+  ADD COLUMN IF NOT EXISTS periodo_inicio DATE NULL,
+  ADD COLUMN IF NOT EXISTS periodo_fin DATE NULL;
+
+-- Asegurar que codigo sea único
+ALTER TABLE practicantes ADD CONSTRAINT IF NOT EXISTS unique_codigo UNIQUE (codigo);
