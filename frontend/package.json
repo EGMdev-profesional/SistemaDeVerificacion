@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "start": "serve -s dist -l 4173"
   },
   "dependencies": {
     "react": "^18.2.0",
@@ -17,7 +18,8 @@
     "html5-qrcode": "^2.3.8",
     "lucide-react": "^0.294.0",
     "clsx": "^2.0.0",
-    "tailwind-merge": "^2.1.0"
+    "tailwind-merge": "^2.1.0",
+    "serve": "^14.2.1"
   },
   "devDependencies": {
     "@types/react": "^18.2.43",

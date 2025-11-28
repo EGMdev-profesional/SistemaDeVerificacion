@@ -42,7 +42,7 @@ services:
     env: node
     plan: free
     buildCommand: cd frontend && npm install && npm run build
-    startCommand: cd frontend && npm run preview -- --port 4173 --host 0.0.0.0
+    startCommand: cd frontend && npm start
     envVars:
       - key: VITE_API_URL
         value: https://asistencia-qr-backend.onrender.com/api
