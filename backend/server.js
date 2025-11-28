@@ -17,11 +17,24 @@ const PORT = process.env.PORT || 3000;
 
 // Middlewares
 const corsOptions = {
-  origin: [
-    'http://localhost:5173',
-    'https://asistencia-qr-frontend.onrender.com',
-    'https://sistema-asistencia-qr.vercel.app'
-  ],
+  origin: function (origin, callback) {
+    // Permitir requests sin origin (como mobile apps)
+    if (!origin) return callback(null, true);
+    
+    // Orígenes permitidos
+    const allowedOrigins = [
+      'http://localhost:5173',
+      'https://asistencia-qr-frontend.onrender.com',
+      'https://sistema-asistencia-qr.vercel.app'
+    ];
+    
+    // Permitir si está en la lista o si es el origen de producción
+    if (allowedOrigins.includes(origin) || origin.includes('render.com')) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
