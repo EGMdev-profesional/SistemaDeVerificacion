@@ -47,7 +47,6 @@ services:
       - key: VITE_API_URL
         value: https://asistencia-qr-backend.onrender.com/api
 
-  - type: pserv
-    name: asistencia-qr-db
-    ipAllowList: []
+databases:
+  - name: asistencia-qr-db
     plan: free
